@@ -39,10 +39,28 @@ function getSingleUser(req, res, next){
     });
 }
 
+function createUser(req, res, next) {
+  req.body.age = parseInt(req.body.age);
+  db.none('insert into users(name, email, age)' +
+      'values(${name}, ${email}, ${age})',
+    req.body)
+    .then(function () {
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Inserted ONE user'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+}
+
+
 module.exports = {
   getAllUsers: getAllUsers,
-  getSingleUser: getSingleUser
-  // createUser: createUser,
+  getSingleUser: getSingleUser,
+  createUser: createUser
   // updateUser: updateUser,
   // removeUser: removeUser
 };
