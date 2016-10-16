@@ -23,9 +23,25 @@ function getAllUsers(req, res, next){
   });
 }
 
+function getSingleUser(req, res, next){
+  var userID = parseInt(req.params.id);
+  db.one('select * from users where id = $1', userID)
+    .then(function(data){
+      res.status(200)
+       .json({
+         status: 'success',
+         data: data,
+         message: 'Retrieved ONE user'
+       });
+    })
+    .catch(function(err){
+      return next(err);
+    });
+}
+
 module.exports = {
-  getAllUsers: getAllUsers
-  // getSingleUser: getSingleUser,
+  getAllUsers: getAllUsers,
+  getSingleUser: getSingleUser
   // createUser: createUser,
   // updateUser: updateUser,
   // removeUser: removeUser
