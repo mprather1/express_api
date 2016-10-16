@@ -56,11 +56,25 @@ function createUser(req, res, next) {
     });
 }
 
+function updateUser(req, res, next){
+  db.none('update users set name=$1, email=$2, age=$3 where id=$4', [req.body.name, req.body.email, parseInt(req.body.age), parseInt(req.params.id)])
+    .then(function(){
+      res.status(200)
+        .json({
+          status: 'success',
+          message: 'Updated User'
+        });
+    })
+    .catch(function(err){
+      return next(err);
+    });
+}
+
 
 module.exports = {
   getAllUsers: getAllUsers,
   getSingleUser: getSingleUser,
-  createUser: createUser
-  // updateUser: updateUser,
+  createUser: createUser,
+  updateUser: updateUser
   // removeUser: removeUser
 };
