@@ -1,11 +1,11 @@
 var promise = require("bluebird");
-
 var options = {
   promiseLib: promise
 };
-
+var config = require("../_config");
+var environment = process.env.NODE_ENV || 'development';
 var pgp = require("pg-promise")(options);
-var connectionString = "postgres://postgres:postgres@localhost:5432/api";
+var connectionString = config.postgresURI[environment];
 var db = pgp(connectionString);
 
 function getAllUsers(req, res, next){
@@ -15,7 +15,7 @@ function getAllUsers(req, res, next){
       .json({
         status: 'success',
         data: data,
-        message: 'Retrieved ALL users'
+        message: "Retrieved ALL users"
       });
   })
   .catch(function(err){

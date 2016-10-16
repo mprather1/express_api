@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 
-var db = require("../queries");
+var db = require("../db//queries");
 
 router.get('/api/users', db.getAllUsers);
 router.get('/api/users/:id', db.getSingleUser);

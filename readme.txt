@@ -8,8 +8,12 @@ local   all             postgres                                trust #peer
 #change postgres user password
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';"
 
-#run users.sql to create database
-psql -f users.sql -U postgres
+#run db.sql to create database
+psql -f db.sql -U postgres
+knex migrate:make users
+knex migrate:latest --env development
+knex migrate:latest --env test
+knex migrate:latest --env production
 
 #GET users
 curl http://127.0.0.1:3000/api/users
